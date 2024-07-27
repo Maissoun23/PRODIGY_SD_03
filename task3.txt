@@ -1,0 +1,123 @@
+task3 :
+#include <iostream>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Contact {
+public:
+    string name;
+    string phoneNumber;
+    string email;
+
+    Contact(string name, string phoneNumber, string email) {
+        this->name = name;
+        this->phoneNumber = phoneNumber;
+        this->email = email;
+    }
+};
+
+vector<Contact> contacts;
+
+void addContact() {
+    string name, phoneNumber, email;
+    cout << "Enter name: ";
+    cin.ignore();
+    getline(cin, name);
+    cout << "Enter phone number: ";
+    getline(cin, phoneNumber);
+    cout << "Enter email: ";
+    getline(cin, email);
+    contacts.push_back(Contact(name, phoneNumber, email));
+    cout << "Contact added successfully!" << endl;
+}
+
+void viewContacts() {
+    if (contacts.empty()) {
+        cout << "No contacts available." << endl;
+    } else {
+        for (size_t i = 0; i < contacts.size(); ++i) {
+            cout << "Contact " << i + 1 << ": " << endl;
+            cout << "Name: " << contacts[i].name << endl;
+            cout << "Phone Number: " << contacts[i].phoneNumber << endl;
+            cout << "Email: " << contacts[i].email << endl;
+            cout << endl;
+        }
+    }
+}
+
+void editContact() {
+    int index;
+    viewContacts();
+    cout << "Enter the contact number you want to edit: ";
+    cin >> index;
+    if (index < 1 || index > contacts.size()) {
+        cout << "Invalid contact number." << endl;
+        return;
+    }
+    index--; // Adjust for 0-based index
+    string name, phoneNumber, email;
+    cout << "Enter new name (leave blank to keep current): ";
+    cin.ignore();
+    getline(cin, name);
+    if (!name.empty()) contacts[index].name = name;
+    cout << "Enter new phone number (leave blank to keep current): ";
+    getline(cin, phoneNumber);
+    if (!phoneNumber.empty()) contacts[index].phoneNumber = phoneNumber;
+    cout << "Enter new email (leave blank to keep current): ";
+    getline(cin, email);
+    if (!email.empty()) contacts[index].email = email;
+    cout << "Contact updated successfully!" << endl;
+}
+
+void deleteContact() {
+    int index;
+    viewContacts();
+    cout << "Enter the contact number you want to delete: ";
+    cin >> index;
+    if (index < 1 || index > contacts.size()) {
+        cout << "Invalid contact number." << endl;
+        return;
+    }
+    index--; // Adjust for 0-based index
+    contacts.erase(contacts.begin() + index);
+    cout << "Contact deleted successfully!" << endl;
+}
+
+int main() {
+    int choice;
+    do {
+        cout << "Contact Management System" << endl;
+        cout << "1. Add Contact" << endl;
+        cout << "2. View Contacts" << endl;
+        cout << "3. Edit Contact" << endl;
+        cout << "4. Delete Contact" << endl;
+        cout << "5. Exit" << endl;
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1:
+                addContact();
+                break;
+            case 2:
+                viewContacts();
+                break;
+            case 3:
+                editContact();
+                break;
+            case 4:
+                deleteContact();
+                break;
+            case 5:
+                cout << "Exiting..." << endl;
+                break;
+            default:
+                cout << "Invalid choice. Please try again." << endl;
+        }
+        cout << endl;
+    } while (choice != 5);
+
+    return 0;
+}
